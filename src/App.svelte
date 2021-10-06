@@ -50,6 +50,7 @@
 	}
 
 	img {
-		max-width: 60vw;
+		max-height: 60vh;
+		max-width: 90vw;
 	}
 </style>
