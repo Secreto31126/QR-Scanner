@@ -13,7 +13,15 @@
 		QrScanner.scanImage(blob)
 		.then(e => output = e)
 		.catch(e => {
-			output = "No se pudo escanear el código QR";
+			switch (e.name) {
+				case "SecurityError":
+					output = "Perdón, no se pueden escanear imágenes arrastradas desde otros sitios. Probá copiar y pegar la foto acá.";
+					break;
+					
+				default:
+					output = "No se pudo escanear el código QR";
+					break;
+			}
 			console.error(e);
 		});
 	} else {
@@ -33,7 +41,7 @@
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<img src={blob} on:error={blob = false}/>
 	{/if}
-	<p>{output ?? "Para escanear un código QR, sacale una foto y pegala acá"}</p>
+	<p>{output ?? "Para escanear un código QR, subí un archivo, pegá una foto (CTRL + V), o usá la cámara"}</p>
 </main>
 
 <style>
