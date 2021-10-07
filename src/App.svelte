@@ -90,12 +90,7 @@
 		text-align: center;
 	}
 
-	img {
-		max-height: 60vh;
-		max-width: 90vw;
-	}
-
-	video {
+	img, video {
 		max-height: 60vh;
 		max-width: 90vw;
 	}
