@@ -35,7 +35,7 @@
 		scanner = new QrScanner(video, result => output = result);
 	});
 
-	let camera = false;
+	let camera = false; // Whether the camera is on (true) or off (false)
 	$: if (camera) {
 		scanner.start();
 	} else if (!!scanner) { // Only run if the scanner is defined, Edge compatible solution
@@ -80,7 +80,7 @@
 			Para escanear un código QR,
 			<Button onclick={() => input.click()} --color="blue">subí un archivo</Button>,
 			pegá una foto (<kbd>CTRL</kbd>+<kbd>V</kbd>),
-			o <Button --color="blue" onclick={() => camera = true}>usá la cámara</Button>
+			o <Button onclick={() => camera = true} --color="blue">usá la cámara</Button>
 		</p>
 		<input bind:this={input} on:change={e => blob = Upload(e)} type="file" accept="image/*" style="display:none;"/>
 	{/if}
