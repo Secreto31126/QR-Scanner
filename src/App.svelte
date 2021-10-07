@@ -75,7 +75,7 @@ import { onMount } from "svelte";
 		<p>{output}</p>
 		<button on:click={() => blob = undefined}>Borrar</button>
 	{:else}
-		<p>
+		<p>Test
 			Para escanear un código QR,
 			<Button onclick={() => input.click()} --color="blue">subí un archivo</Button>,
 			pegá una foto (<kbd>CTRL</kbd>+<kbd>V</kbd>),
