@@ -4,10 +4,9 @@ function Paste(e) {
         if (!items) return;
         
         for (let item of items) {
-            //If it's an image
             if (item.type.startsWith("image")) {
                 e.preventDefault();
-                return createBlob(item);
+                return createBlobUrl(item.getAsFile());
             }
         }
     }
@@ -16,24 +15,43 @@ function Paste(e) {
 async function Drop(e) {
     if (e.dataTransfer.items) {
         for (let item of e.dataTransfer.items) {
-            console.log(item);
             if (item.type.startsWith("image")) {
-                return createBlob(item);
-            } else if (item.type == "text/uri-list") {
-                // If it's an url (cross-site image dragged)
+                return createBlobUrl(item.getAsFile());
+            }
+            
+            // If it's an url (cross-site image dragged)
+            // Only works if CORS is enabled from the source
+            else if (item.type == "text/uri-list") {
                 let url = new Promise((resolve, reject) => {
                     item.getAsString(e => {
                         resolve(e);
                     });
                 });
+
                 return await url;
             }
         }
     }
 }
 
-function createBlob(item) {
-    return (window.URL ?? window.webkitURL).createObjectURL(item.getAsFile());
+function Upload(e) {
+    if (e.target.files) {
+        for (let item of e.target.files) {
+            if (item.type.startsWith("image")) {
+                return createBlobUrl(item);
+            }
+        }
+    }
 }
 
-export { Paste, Drop };
+/**
+ * Create a blob url from a file
+ * 
+ * @param {File} file The file to create a blob url from
+ * @returns {String} The blob url
+ */
+function createBlobUrl(file) {
+    return (window.URL ?? window.webkitURL).createObjectURL(file);
+}
+
+export { Paste, Drop, Upload };

@@ -1,12 +1,11 @@
 <script>
     import QrScanner from "qr-scanner";
-	import { Paste, Drop } from "./Handlers";
+import { onMount } from "svelte";
+	import { Paste, Drop, Upload } from "./Handlers";
+	import Button from "./Nice_Button.svelte";
 
-	// The blob url of the image
-	let blob;
-
-	// The text output
-	let output;
+	let blob;	// The blob url of the image
+	let output; // The text output
 
 	// If the blob changes, update the output
 	$: if (!!blob) {
@@ -27,13 +26,33 @@
 	} else {
 		output = undefined;
 	}
+
+	// Camera support
+	let video;
+	let scanner;
+	onMount(() => {
+		scanner = new QrScanner(video, result => output = result);
+	});
+
+	let camera = false;
+	$: if (camera) {
+		scanner.start();
+	} else if (!!scanner) { // Only run if the scanner is defined, Edge compatible solution
+		scanner.stop();
+	}
+
+	// Other variables
+	let dragging = false;
+	let input;
 </script>
 
 <!-- Handlers -->
 <svelte:window
 	on:paste={e => blob = Paste(e)}
-	on:drop|preventDefault={async e => blob = await Drop(e)}
+	on:dragenter={() => dragging = true}
+	on:dragleave={(e) => { if (!e.fromElement) dragging = false}}
 	on:dragover|preventDefault
+	on:drop|preventDefault={async e => { blob = await Drop(e); dragging = false; }}
 />
 
 <main>
@@ -41,7 +60,29 @@
 		<!-- svelte-ignore a11y-missing-attribute -->
 		<img src={blob} on:error={blob = false}/>
 	{/if}
-	<p>{output ?? "Para escanear un código QR, subí un archivo, pegá una foto (CTRL + V), o usá la cámara"}</p>
+
+	<!-- svelte-ignore a11y-media-has-caption -->
+	<video bind:this={video} style={camera ? "" : "display: none;"}></video>
+	{#if camera}
+		<button on:click={() => camera = false}>Cerrar cámara</button>
+	{/if}
+
+	{#if dragging}
+		<p>Sí, arrastrar la imagen también funciona</p>
+	{/if}
+
+	{#if output}
+		<p>{output}</p>
+		<button on:click={() => blob = undefined}>Borrar</button>
+	{:else}
+		<p>
+			Para escanear un código QR,
+			<Button onclick={() => input.click()} --color="blue">subí un archivo</Button>,
+			pegá una foto (<kbd>CTRL</kbd>+<kbd>V</kbd>),
+			o <Button --color="blue" onclick={() => camera = true}>usá la cámara</Button>
+		</p>
+		<input bind:this={input} on:change={e => blob = Upload(e)} type="file" accept="image/*" style="display:none;"/>
+	{/if}
 </main>
 
 <style>
@@ -50,6 +91,11 @@
 	}
 
 	img {
+		max-height: 60vh;
+		max-width: 90vw;
+	}
+
+	video {
 		max-height: 60vh;
 		max-width: 90vw;
 	}
