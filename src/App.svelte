@@ -1,6 +1,6 @@
 <script>
+	import { onMount } from "svelte";
     import QrScanner from "qr-scanner";
-import { onMount } from "svelte";
 	import { Paste, Drop, Upload } from "./Handlers";
 	import Button from "./Nice_Button.svelte";
 
@@ -31,6 +31,7 @@ import { onMount } from "svelte";
 	let video;
 	let scanner;
 	onMount(() => {
+		// Wait 'till the video element is ready
 		scanner = new QrScanner(video, result => output = result);
 	});
 
