@@ -58,8 +58,7 @@
 
 <main>
 	{#if blob}
-		<!-- svelte-ignore a11y-missing-attribute -->
-		<img src={blob} on:error={blob = false}/>
+		<img src={blob} on:error={blob = false} alt="QR Code"/>
 	{/if}
 
 	<!-- svelte-ignore a11y-media-has-caption -->
