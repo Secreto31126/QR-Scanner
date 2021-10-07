@@ -73,7 +73,7 @@
 
 	{#if output}
 		<p>{output}</p>
-		<button on:click={() => blob = undefined}>Borrar</button>
+		<button on:click={() => { blob = undefined; output = undefined; }}>Borrar</button>
 	{:else}
 		<p>
 			Para escanear un código QR,
