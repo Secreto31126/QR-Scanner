@@ -51,7 +51,7 @@
 <svelte:window
 	on:paste={e => blob = Paste(e)}
 	on:dragenter={() => dragging = true}
-	on:dragleave={(e) => { if (!e.fromElement) dragging = false}}
+	on:dragleave={e => { if (!e.fromElement) dragging = false }}
 	on:dragover|preventDefault
 	on:drop|preventDefault={async e => { blob = await Drop(e); dragging = false; }}
 />
@@ -62,7 +62,7 @@
 	{/if}
 
 	<!-- svelte-ignore a11y-media-has-caption -->
-	<video bind:this={video} style={camera ? "" : "display: none;"}></video>
+	<video bind:this={video} style={camera ? "" : "display: none;"}></video> <!-- Just hide the video so QrScanner can mount it -->
 	{#if camera}
 		<button on:click={() => camera = false}>Cerrar cámara</button>
 	{/if}
