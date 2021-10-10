@@ -1,6 +1,7 @@
 <script>
 	import Button from "./Nice_Button.svelte";
 	import Scanner from "./Scanner.svelte";
+	import Create from "./Create.svelte";
 
 	let page = "scanner";
 </script>
