@@ -1,14 +1,15 @@
 <script>
-	import { onMount } from "svelte";
+    import { onMount } from "svelte";
     import QrScanner from "qr-scanner";
-	import { Paste, Drop, Upload } from "./Handlers";
-	import Button from "./Nice_Button.svelte";
-
     import { QRContent } from "./stores";
+	import Button from "./Nice_Button.svelte";
+	import { Paste, Drop, Upload } from "./Handlers";
 
 	let blob;	// The blob url of the image
 	let output; // The text output
     let error;  // The error message
+
+    $: QRContent.set(output);
 
 	// If the blob changes, update the output
 	$: if (!!blob) {
@@ -38,14 +39,12 @@
         output = undefined;
     }
 
-    $: QRContent.set(output);
-
 	// Camera support
 	let video;
 	let scanner;
 	onMount(() => {
 		// Wait 'till the video element is ready
-		scanner = new QrScanner(video, result => output = result, fail => error = fail);
+		scanner = new QrScanner(video, result => output = result);
 	});
 
 	let camera = false; // Whether the camera is on (true) or off (false)
@@ -110,16 +109,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        grid-template-columns: 60px 1fr;
-        grid-template-rows: 60px 1fr;
-
         height: 100%;
     }
 
     img, video {
         width: auto;
-        max-height: 5%;
+        height: 60%;
     }
 
     .error {
