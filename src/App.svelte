@@ -1,28 +1,37 @@
 <script>
-	import Button from "./Nice_Button.svelte";
-	import Scanner from "./Scanner.svelte";
+	import { get } from 'svelte/store';
+	import Navbar from "./Navbar.svelte";
 	import Create from "./Create.svelte";
+	import Scanner from "./Scanner.svelte";
+	import { QRContent, Page } from "./scripts/stores";
 
-	let page = "scanner";
+	let page;
+	Page.subscribe(p => {
+		// Ugly, but it works
+		if (page === "create" && page !== p && !!get(QRContent)) {
+			if (confirm("¿Seguro que quieres abandonar esta página? ¡Se perderán los cambios!")) {
+				page = p;
+			} else {
+				Page.set(page);
+			}
+		} else {
+			page = p;
+		}
+	});
 </script>
 
 <nav>
-	<span>
-		<Button onclick={() => page = "scanner"} --color="inherit" inactive={page === "scanner"}>Escanear</Button>
-	</span>
-	<span>
-		<Button onclick={() => page = "create"} --color="inherit" inactive={page === "create"}>Crear</Button>
-	</span>
+	<Navbar />
 </nav>
 
 <main>
-	<div class="page">
-		{#if page === "scanner"}
-			<Scanner />
-		{:else if page === "create"}
-			<Create />
-		{/if}
-	</div>
+	{#if page === "scanner"}
+		<Scanner />
+	{:else if page === "create"}
+		<Create />
+	{:else}
+		<h1>404</h1>
+	{/if}
 </main>
 
 <footer>
@@ -47,19 +56,12 @@
 		height: 5vh;
 		padding: 1rem;
 	}
-
-	nav > * {
-		margin: 0 1rem;
-	}
-
-	main {
-		flex-direction: column;
-	}
 	
-	.page {
+	main {
 		width: 80vw;
 		height: 70vh;
 		padding: 20px;
+		margin: 0 auto;
 		border-radius: 15px;
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	}

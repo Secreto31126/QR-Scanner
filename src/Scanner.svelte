@@ -1,13 +1,14 @@
 <script>
     import { onMount } from "svelte";
+    import { get } from 'svelte/store';
     import QrScanner from "qr-scanner";
-    import { QRContent } from "./stores";
 	import Button from "./Nice_Button.svelte";
-	import { Paste, Drop, Upload } from "./Handlers";
+    import { QRContent, Page } from "./scripts/stores";
+	import { Paste, Drop, Upload } from "./scripts/Handlers";
 
-	let blob;	// The blob url of the image
-	let output; // The text output
-    let error;  // The error message
+	let blob;                       // The blob url of the image
+    let error;                      // The error message
+	let output = get(QRContent);    // The text output
 
     $: QRContent.set(output);
 
@@ -36,6 +37,8 @@
         error = undefined;
 	}
 
+    // In order to show the error, the output must be deleted.
+    // If there's an error, no output is expected anyway.
     $: if (error) {
         output = undefined;
     }
@@ -45,7 +48,16 @@
 	let scanner;
 	onMount(() => {
 		// Wait 'till the video element is ready
-		scanner = new QrScanner(video, result => output = result);
+		scanner = new QrScanner(video, result => {
+            output = result;
+            // let canvas = document.createElement("canvas");
+            // canvas.width = video.width;
+            // canvas.height = video.height;
+            // let ctx = canvas.getContext("2d");
+            // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // blob = canvas.toDataURL("image/png");
+            // camera = false;
+        });
 	});
 
 	let camera = false; // Whether the camera is on (true) or off (false)
@@ -73,7 +85,7 @@
 	on:drop|preventDefault={async e => { blob = await Drop(e); dragging = false; }}
 />
 
-<div>
+<div class="main">
     {#if blob}
         <img src={blob} on:error={blob = false} alt="QR Code"/>
     {/if}
@@ -90,10 +102,13 @@
 
     {#if output}
         <p class="output">{output}</p>
-        <button on:click={() => { blob = undefined; output = undefined; }}>Borrar</button>
+        <div class="buttons">
+            <button on:click={() => blob = undefined}>Borrar</button>
+            <button on:click={() => Page.set("create")}>Editar</button>
+        </div>
     {:else if error}
         <p class="error">{error}</p>
-        <button on:click={() => { blob = undefined; error = undefined; }}>Cerrar</button>
+        <button on:click={() => blob = undefined}>Cerrar</button>
     {:else}
         <p>
             Para escanear un código QR,
@@ -106,7 +121,7 @@
 </div>
 
 <style>
-    div {
+    div.main {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -120,5 +135,13 @@
 
     .error {
         color: #ee0000;
+    }
+
+    div.buttons {
+        height: 10%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        column-gap: 5%;
     }
 </style>
