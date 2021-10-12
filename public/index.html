@@ -11,6 +11,28 @@
 	<link rel='stylesheet' href='/build/bundle.css'>
 
 	<script defer src='/build/bundle.js'></script>
+
+	<script type="module">
+		// Import the functions you need from the SDKs you need
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+		import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-analytics.js";
+	  
+		// Your web app's Firebase configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		const firebaseConfig = {
+			apiKey: "AIzaSyBLFnSRQpnvnaLyOEL-A1e72mY-CJeG3Hw",
+			authDomain: "qrscanneronline.firebaseapp.com",
+			projectId: "qrscanneronline",
+			storageBucket: "qrscanneronline.appspot.com",
+			messagingSenderId: "505870555024",
+			appId: "1:505870555024:web:852e9e5b6d4af41b18c515",
+			measurementId: "G-WJ1Q1673LG"
+		};
+	  
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
+	</script>
 </head>
 
 <body>
