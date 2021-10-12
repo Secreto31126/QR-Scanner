@@ -27,6 +27,7 @@
 					error = "No se pudo escanear el código QR";
 					break;
 			}
+            
 			console.error(e);
 		});
 	} else {

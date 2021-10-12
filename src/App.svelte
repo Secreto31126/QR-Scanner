@@ -8,10 +8,10 @@
 
 <nav>
 	<span>
-		<Button onclick={() => page = "scanner"} --color="inherit" inactive={page == "scanner"}>Escanear</Button>
+		<Button onclick={() => page = "scanner"} --color="inherit" inactive={page === "scanner"}>Escanear</Button>
 	</span>
 	<span>
-		<Button onclick={() => page = "create"} --color="inherit" inactive={page == "create"}>Crear</Button>
+		<Button onclick={() => page = "create"} --color="inherit" inactive={page === "create"}>Crear</Button>
 	</span>
 </nav>
 
