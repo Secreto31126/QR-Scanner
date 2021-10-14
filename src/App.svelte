@@ -48,13 +48,13 @@
 <style>
 	nav, main, footer {
 		display: flex;
-		align-items: center;
 		justify-content: center;
 	}
 
 	nav {
 		height: 5vh;
 		padding: 1rem;
+		align-items: center;
 	}
 	
 	main {
@@ -69,6 +69,7 @@
 	footer {
 		height: 5vh;
 		padding: 2rem;
+		align-items: center;
 	}
 
 	footer > a, footer > a > svg {
