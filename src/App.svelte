@@ -58,9 +58,8 @@
 	}
 	
 	main {
-		min-width: 80vw;
-		width: fit-content;
-		height: 70vh;
+		width: 80vw;
+		min-height: 70vh;
 		padding: 20px;
 		margin: 0 auto;
 		border-radius: 15px;
