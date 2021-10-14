@@ -58,7 +58,7 @@
 	}
 	
 	main {
-		width: 80vw;
+		min-width: 80vw;
 		height: 70vh;
 		padding: 20px;
 		margin: 0 auto;
