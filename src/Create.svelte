@@ -25,8 +25,7 @@
             }
         });
     } else {
-        src = undefined;
-        error = undefined;
+        src = error = undefined;
     }
 
     $: QRContent.set(text); // Needed for App.svelte to prevent loosing changes on page change
