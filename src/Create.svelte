@@ -7,7 +7,7 @@
     let error;
     let quality;
     let text = get(QRContent);
-    let defaultColors = {
+    const defaultColors = {
         dark: '#000000',
         light: '#ffffff',
     };
