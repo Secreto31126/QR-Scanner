@@ -7,7 +7,7 @@
     let error;
     let quality;
     let text = get(QRContent);
-    let defaultColors = {
+    const defaultColors = {
         dark: '#000000',
         light: '#ffffff',
     };
@@ -25,8 +25,7 @@
             }
         });
     } else {
-        src = undefined;
-        error = undefined;
+        src = error = undefined;
     }
 
     $: QRContent.set(text); // Needed for App.svelte to prevent loosing changes on page change
@@ -73,17 +72,16 @@
                 </select>
             </div>
         </div>
-        {#if error && !src}
-            <p>Si tenés problemas de tamaño, probá reducir la calidad a cambio de mayor capacidad</p>
-            <p>(La calidad de la imagen será la misma, lo que cambia es la calidad de la información dentro del QR en sí)</p>
-        {/if}
         {#if src}
             <label for="name">Nombre del archivo</label>
             <input name="name" type="text" bind:value={name}>
             <div class="buttons">
-                <button on:click={() => { text = undefined; color = defaultColors }}>Borrar</button>
+                <button on:click={() => { text = undefined; color = defaultColors; quality = "L"; name = "QR"; }}>Borrar</button>
                 <button on:click={download}>Descargar</button>
             </div>
+        {:else if error}
+            <p>Si tenés problemas de tamaño, probá reducir la calidad a cambio de mayor capacidad</p>
+            <p>(La calidad de la imagen será la misma, lo que cambia es la calidad de la información dentro del QR en sí)</p>
         {/if}
     {/if}
 </div>

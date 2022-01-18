@@ -33,8 +33,7 @@
 		});
 	} else {
         // If there is no blob, no output nor error should be displayed
-        output = undefined;
-        error = undefined;
+        output = error = undefined;
 	}
 
     // In order to show the error, the output must be deleted.
@@ -108,7 +107,7 @@
         </div>
     {:else if error}
         <p class="error">{error}</p>
-        <button on:click={() => blob = undefined}>Cerrar</button>
+        <button on:click={() => blob = error = undefined}>Cerrar</button>
     {:else}
         <p>
             Para escanear un código QR,
