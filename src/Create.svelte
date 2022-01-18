@@ -80,7 +80,7 @@
             <label for="name">Nombre del archivo</label>
             <input name="name" type="text" bind:value={name}>
             <div class="buttons">
-                <button on:click={() => { text = undefined; color = defaultColors }}>Borrar</button>
+                <button on:click={() => text = undefined, color = defaultColors}>Borrar</button>
                 <button on:click={download}>Descargar</button>
             </div>
         {/if}

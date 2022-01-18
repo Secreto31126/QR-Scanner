@@ -107,7 +107,7 @@
         </div>
     {:else if error}
         <p class="error">{error}</p>
-        <button on:click={() => blob = undefined}>Cerrar</button>
+        <button on:click={() => blob = error = undefined}>Cerrar</button>
     {:else}
         <p>
             Para escanear un código QR,
